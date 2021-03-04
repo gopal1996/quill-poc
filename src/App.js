@@ -1,5 +1,7 @@
 import React from 'react'
-import Quilljs from './Quilljs';
+// import Quilljs from './Quilljs';
+import Sun from './Sun';
+import "./App.css"
 
 const style = {
     textAlign: "center"
@@ -12,7 +14,8 @@ const App = () => {
             <div className="container">
                 <h3 style={style}>Quill</h3>
                 
-                <Quilljs />
+                {/* <Quilljs /> */}
+                <Sun />
                 
             </div>
         </section>
