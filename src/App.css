@@ -1,0 +1,27 @@
+.flow-field--list {
+    list-style-type: none;
+}
+  
+.flow-field--item {
+    padding: 0.5rem;
+    background: #468dc1;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-user-select: none;
+    margin: 1rem 0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.flow-field {
+    display: flex;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 100%;
+}
