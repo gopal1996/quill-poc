@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import SunEditor from 'suneditor-react';
+import { cleanDocx } from '@prezly/docx-cleaner'
 import './suneditor.min.css'; 
 
 const Sun = () => {
@@ -22,9 +23,49 @@ const Sun = () => {
     }
 
     const handlePaste = (e, cleanData, maxCharCount) => {
-        console.log("SunEditor :: e", e)
-        console.log("SunEditor :: cleanData", cleanData)
-        console.log("SunEditor :: maxCharCount", maxCharCount)
+        // console.log("SunEditor :: cleanData", cleanData)
+        let g = e.clipboardData || window.clipboardData;
+
+        let html = g.getData('text/html');
+        let rtf = g.getData('text/rtf');
+        
+        try {
+            const cleanHtml = cleanDocx(html, rtf)
+          //   console.log(cleanHtml)
+  
+            var m;
+            let imageList = [];
+            var re = /<img[^>]+src="([^">]+)"/g
+  
+            while(m = re.exec(cleanHtml)) {
+              imageList.push(m[1])
+            }
+  
+          //   console.log(imageList)
+  
+            if(imageList.length > 0) {
+            //   let editorData = this.quill.container.innerHTML;
+  
+              var n;
+              let localFile = [];
+              while(n = re.exec(cleanData)) {
+                localFile.push(n[1])
+              }
+  
+              for(let i=0; i< imageList.length; i++) {
+                cleanData = cleanData.replace(localFile[i], imageList[i])
+              }
+  
+              // console.log(editorData)
+  
+              // editor.setContent(editorData)
+            //   this.quill.container.innerHTML = editorData
+            }
+  
+          } catch(err) {
+            console.error(err)
+          }
+        
 
         return cleanData
     }
