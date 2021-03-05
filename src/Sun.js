@@ -21,6 +21,14 @@ const Sun = () => {
         console.log(eve)
     }
 
+    const handlePaste = (e, cleanData, maxCharCount) => {
+        console.log("SunEditor :: e", e)
+        console.log("SunEditor :: cleanData", cleanData)
+        console.log("SunEditor :: maxCharCount", maxCharCount)
+
+        return cleanData
+    }
+
     return (
         <div>
             <div className="flow-field">
@@ -56,7 +64,18 @@ const Sun = () => {
                     </li>
                 </ul>
             </div>
-            <SunEditor ref={editorRef} onChange={handler} />
+            <SunEditor ref={editorRef} onChange={handler} setOptions={{
+                height: 500,
+                buttonList: [
+                    ['undo', 'redo'],
+                    ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                    ['align', 'horizontalRule', 'list', 'lineHeight'],
+                    ['imageGallery'],
+                    ['table', 'link', 'image', 'video'],
+                    ['fullScreen', 'showBlocks', 'codeView'],
+                    ['preview', 'print'],
+                ]
+            }} onPaste={handlePaste} />
         </div>
     )
 }
