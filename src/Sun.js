@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import SunEditor from 'suneditor-react';
 import { cleanDocx } from '@prezly/docx-cleaner'
+import image from 'suneditor/src/plugins/dialog/link'
+import list from 'suneditor/src/plugins/submenu/list'
 import './suneditor.min.css'; 
 
 const Sun = () => {
@@ -28,7 +30,7 @@ const Sun = () => {
 
         let html = g.getData('text/html');
         let rtf = g.getData('text/rtf');
-        
+        console.log(rtf)
         try {
             const cleanHtml = cleanDocx(html, rtf)
           //   console.log(cleanHtml)
@@ -67,7 +69,37 @@ const Sun = () => {
           }
         
 
-        return cleanData
+        return html
+    }
+
+    const handleImageUploadBefore = (files, info, uploadHandler) => {
+        // uploadHandler is a function
+        console.log(files, info)
+
+        const FounderData = new FormData();
+        FounderData.append("file", files[0])
+
+        const postHeaders = new Headers()
+        postHeaders.append("Content-Type","application/json")
+
+        fetch(`http://localhost:5000/upload`, {
+            method: "POST",
+            body: FounderData,
+        })
+        .then(res => res.json())
+        .then(res => {
+            let response = {
+                result: [
+                  {
+                    url: res.location,
+                    name: res.name || 'Imagem',
+                    size: res.size
+                  }
+                ]
+              }
+
+            uploadHandler(response)
+        })
     }
 
     return (
@@ -111,12 +143,13 @@ const Sun = () => {
                     ['undo', 'redo'],
                     ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
                     ['align', 'horizontalRule', 'list', 'lineHeight'],
-                    ['imageGallery'],
                     ['table', 'link', 'image', 'video'],
                     ['fullScreen', 'showBlocks', 'codeView'],
                     ['preview', 'print'],
-                ]
-            }} onPaste={handlePaste} />
+                ],
+                plugins: [image],
+                imageUploadUrl: "http://localhost:5000/upload"
+            }} onPaste={handlePaste} onImageUploadBefore={handleImageUploadBefore} />
         </div>
     )
 }

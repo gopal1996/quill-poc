@@ -1,5 +1,5 @@
 import React from 'react'
-// import Quilljs from './Quilljs';
+import Quilljs from './Quilljs';
 import Sun from './Sun';
 import "./App.css"
 

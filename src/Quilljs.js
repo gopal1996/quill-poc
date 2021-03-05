@@ -4,57 +4,57 @@ import "quill/dist/quill.snow.css"
 import { cleanDocx } from '@prezly/docx-cleaner'
 import "./App.css"
 import QuillImageDropAndPaste from 'quill-image-drop-and-paste'
-var Clipboard = Quill.import('modules/clipboard');
-var Delta = Quill.import('delta');
+// var Clipboard = Quill.import('modules/clipboard');
+// var Delta = Quill.import('delta');
 
-class PlainClipboard extends Clipboard {
-    onPaste (evt) {
-        // e.preventDefault()
-        // const range = this.quill.getSelection()
-        let g = evt.clipboardData || window.clipboardData;
+// class PlainClipboard extends Clipboard {
+//     onPaste (evt) {
+//         // e.preventDefault()
+//         // const range = this.quill.getSelection()
+//         let g = evt.clipboardData || window.clipboardData;
 
-        let html = g.getData('text/html');
-        let rtf = g.getData('text/rtf');
-        console.log(this.quill)
+//         let html = g.getData('text/html');
+//         let rtf = g.getData('text/rtf');
+//         console.log(this.quill)
         
-        try {
-          const cleanHtml = cleanDocx(html, rtf)
-        //   console.log(cleanHtml)
+//         try {
+//           const cleanHtml = cleanDocx(html, rtf)
+//         //   console.log(cleanHtml)
 
-          var m;
-          let imageList = [];
-          var re = /<img[^>]+src="([^">]+)"/g
+//           var m;
+//           let imageList = [];
+//           var re = /<img[^>]+src="([^">]+)"/g
 
-          while(m = re.exec(cleanHtml)) {
-            imageList.push(m[1])
-          }
+//           while(m = re.exec(cleanHtml)) {
+//             imageList.push(m[1])
+//           }
 
-        //   console.log(imageList)
+//         //   console.log(imageList)
 
-          if(imageList.length > 0) {
-            let editorData = this.quill.container.innerHTML;
+//           if(imageList.length > 0) {
+//             let editorData = this.quill.container.innerHTML;
 
-            var n;
-            let localFile = [];
-            while(n = re.exec(editorData)) {
-              localFile.push(n[1])
-            }
+//             var n;
+//             let localFile = [];
+//             while(n = re.exec(editorData)) {
+//               localFile.push(n[1])
+//             }
 
-            for(let i=0; i< imageList.length; i++) {
-              editorData = editorData.replace(localFile[i], imageList[i])
-            }
+//             for(let i=0; i< imageList.length; i++) {
+//               editorData = editorData.replace(localFile[i], imageList[i])
+//             }
 
-            // console.log(editorData)
+//             // console.log(editorData)
 
-            // editor.setContent(editorData)
-            this.quill.container.innerHTML = editorData
-          }
+//             // editor.setContent(editorData)
+//             this.quill.container.innerHTML = editorData
+//           }
 
-        } catch(err) {
-          console.error(err)
-        }
-      }
-}
+//         } catch(err) {
+//           console.error(err)
+//         }
+//       }
+// }
 
 const Quilljs = () => {
     let editor = useRef(null)
@@ -99,12 +99,13 @@ const Quilljs = () => {
     }
 
     useEffect(() => {
-        Quill.register('modules/clipboard', PlainClipboard, true);
+        // Quill.register('modules/clipboard', PlainClipboard, true);
 
         editor.current = new Quill(editorContainer.current, {
             theme: 'snow',
             modules: {
-                toolbar: true
+                toolbar: true,
+                table: true,
             }
         })
 
