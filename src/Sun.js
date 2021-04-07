@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import SunEditor from 'suneditor-react';
 import { cleanDocx } from '@prezly/docx-cleaner'
 import image from 'suneditor/src/plugins/dialog/link'
@@ -7,6 +7,8 @@ import './suneditor.min.css';
 
 const Sun = () => {
     const editorRef = useRef();
+    const [data, setData] = useState('')
+
     useEffect(() => {
         // Get underlining core object here
         // Notice that useEffect is been used because you have to make sure the editor is rendered.
@@ -21,7 +23,31 @@ const Sun = () => {
     };
 
     const handler = (eve) => {
-        console.log(eve)
+        // setData(eve)
+        setData(eve.replaceAll('<table>', '<table style="border-collapse: collapse; width: 100%;" border="1">'))
+
+        // Page logic
+
+        // // let sunEditorChildren = document.querySelector('.sun-editor-editable')[0].children;
+        // let sunEditorChildren = document.querySelector('.sun-editor-editable').children;
+        // // console.log(sunEditorChildren)
+
+        // let totalHeight = 0;
+        // let pageHeight = 500;
+        // let newNode = '<div style="border: .5px dashed #000;height:2px;"></div>'
+
+        // // let newNode = document.createElement('div');
+        // // newNode.setAttribute("style", "border: 2px solid #000;height:2px;")
+
+        // for(let i=0;i<sunEditorChildren.length;i++) {
+        //     totalHeight += sunEditorChildren[i].offsetHeight;
+        //     if(totalHeight > pageHeight) {
+        //         pageHeight += 500;
+        //         let nodeSun = sunEditorChildren.item(i)
+        //         nodeSun.insertAdjacentHTML("afterEnd", newNode)
+        //         // nodeSun.appendChild(newNode)
+        //     }
+        // }
     }
 
     const handlePaste = (e, cleanData, maxCharCount) => {
@@ -102,6 +128,34 @@ const Sun = () => {
         })
     }
 
+    function setTable() {
+        
+    }
+
+    function handleSubmit(e) {
+        const bodydata = new FormData()
+        
+
+        console.log(data)
+
+        bodydata.append("desc", data)
+
+        fetch("http://localhost:5000/pdf", {
+            method: 'POST',
+            body: bodydata
+        })
+        .then(res => res.blob())
+        .then(blob => {
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = `${+new Date()}.pdf`;
+            document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+            a.click();    
+            a.remove();
+        })
+    }
+
     return (
         <div>
             <div className="flow-field">
@@ -138,7 +192,8 @@ const Sun = () => {
                 </ul>
             </div>
             <SunEditor ref={editorRef} onChange={handler} setOptions={{
-                height: 500,
+                height: "auto",
+                minHeight: 611,
                 buttonList: [
                     ['undo', 'redo'],
                     ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
@@ -150,6 +205,16 @@ const Sun = () => {
                 plugins: [image],
                 imageUploadUrl: "http://localhost:5000/upload"
             }} onPaste={handlePaste} onImageUploadBefore={handleImageUploadBefore} />
+
+            <button onClick={handleSubmit} style={{
+                  padding: ".5rem 1rem", 
+                  background: "#e91d63",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  marginTop: "1rem"
+                  }}>Generate PDF</button>
         </div>
     )
 }

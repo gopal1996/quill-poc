@@ -1,15 +1,19 @@
 .flow-field--list {
     list-style-type: none;
+    padding-left: 0;
 }
   
 .flow-field--item {
-    padding: 0.5rem;
-    background: #468dc1;
+    background: #fff;
     border-radius: 3px;
     user-select: none;
     -webkit-user-select: none;
-    margin: 1rem 0;
-    color: #fff;
+    color: #080e19;
+    font-weight: 300;
+    padding: 8px 62px 8px 36px;
+    margin: 13px 13px 12px 4px;
+    border: 1px solid #d2ddec;
+    /* box-shadow: 0 1px 4px 0 #d2ddec; */
     cursor: pointer;
 }
 
@@ -24,4 +28,128 @@
     align-items: center;
     margin-top: 2rem;
     width: 100%;
+}
+
+/* Sun Editor */
+
+/* .sun-editor-editable ol, .sun-editor-editable ul {
+    list-style-position: outside !important;
+} */
+
+.flow-field {
+    /* position: absolute;
+    top: 30%;
+    left: 0; */
+    background: #fff;
+    z-index: 10;
+    flex: 1 0 20%;
+}
+
+/* .sun-editor-editable {
+    position: relative;
+} */
+
+.sun-editor {
+    border: none !important;
+}
+
+.sun-editor .se-wrapper .se-wrapper-code {
+    margin: 0 auto !important;
+}
+
+.sun-editor .se-btn-module-border {
+    border: none !important;
+}
+
+/* .sun-editor .se-container {
+    overflow: hidden;
+} */
+
+.sun-editor .se-wrapper {
+    background: #f1f5fa;
+    /* height: 600px !important; */
+}
+
+.sun-editor .se-wrapper .se-wrapper-inner {
+    width: 37.1875rem !important;
+    margin: 1.5625rem auto;
+    border-radius: 4px;
+}
+
+.se-btn-tray {
+    background: #fff;
+}
+
+/* suggestion */
+
+.suggestion-list {
+    box-shadow: 0 2px 12px 0 rgba(41, 45, 55, 0.16);
+    position: absolute;
+    background: #fefeff;
+    width: 280px;
+    margin: .5rem 0;
+    padding: 12px 0 4px;
+    border-radius: 4px;
+    list-style-type: none;
+}
+
+.suggestion-item {
+    /* width: 280px; */
+    height: 38px;
+    padding: 8px 20px;
+}
+
+.suggestion-item:hover {
+    background: #eef3f9;
+}
+
+.active {
+    background: #eef3f9;
+}
+
+.page-break {
+    background: url(https://ckeditor.com/assets/libs/ckeditor4/4.16.0/plugins/pagebreak/images/pagebreak.gif?t=L0QC) no-repeat center center !important;
+    clear: both !important;
+    width: 100% !important;
+    border-top: #999 1px dotted !important;
+    border-bottom: #999 1px dotted !important;
+    padding: 0 !important;
+    height: 7px !important;
+    cursor: default !important;
+}
+
+.form-input {
+    width: 70px;
+    height: 30px;
+    margin: 1rem 2rem !important;
+    padding: 10px 12px 10px 16px !important;
+    border-radius: 4px !important;
+    border: solid 1px #d2ddec !important;
+}
+  
+.wrap {
+    display: flex !important;
+    justify-content: center !important;
+}
+  
+.wrap-two {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.wrap-padding {
+    padding: 24px 24px 32px !important;
+}
+
+/* Quill */
+.ql-editor {
+    width: 600px;
+    margin: 0 auto;
+    background: #fff;
+}
+
+.ql-container {
+    padding: 1rem 0;
+    height: 600px;
+    background: #f1f5fa;
 }
