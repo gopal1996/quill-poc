@@ -28,7 +28,7 @@ const SunNative = () => {
         editor.current = suneditor.create(txtArea.current, {
             plugins: [plugin_padding, plugin_pageBreak, plugin_submenu,plugin_customTable ,blockquote, align, font, fontSize, fontColor, hiliteColor, horizontalRule, table, formatBlock, lineHeight, template, paragraphStyle, textStyle, link, image, video, list, audio, math, imageGallery, plugin_command],
             width: "100%",
-            height: "595px",
+            height: "794px",
             minHeight: "600px",
             buttonList: [
                 ['undo', 'redo'],
@@ -45,6 +45,9 @@ const SunNative = () => {
             ],
             colorList: [],
             historyStackDelayTime: 100,
+            attributesWhitelist: {
+                all: "style",
+            }
         })
 
         // editor.current.disabled()
@@ -94,54 +97,54 @@ const SunNative = () => {
             console.log("scrollHeight",event.target.scrollHeight, "scrollTop", event.target.scrollTop)
         }
 
-        editor.current.onPaste = (e, cleanData, maxCharCount) => {
-            // console.log("SunEditor :: cleanData", cleanData)
-            let g = e.clipboardData || window.clipboardData;
-            let html = g.getData('text/html');
-            let plain = g.getData('text/plain');
-            console.log("plain",plain)
-            let rtf = g.getData('text/rtf');
-            // console.log(rtf)
-            try {
-                const cleanHtml = cleanDocx(html, rtf)
-              //   console.log(cleanHtml)
+        // editor.current.onPaste = (e, cleanData, maxCharCount) => {
+        //     // console.log("SunEditor :: cleanData", cleanData)
+        //     let g = e.clipboardData || window.clipboardData;
+        //     let html = g.getData('text/html');
+        //     let plain = g.getData('text/plain');
+        //     console.log("plain",plain)
+        //     let rtf = g.getData('text/rtf');
+        //     // console.log(rtf)
+        //     try {
+        //         const cleanHtml = cleanDocx(html, rtf)
+        //       //   console.log(cleanHtml)
       
-                var m;
-                let imageList = [];
-                var re = /<img[^>]+src="([^">]+)"/g
+        //         var m;
+        //         let imageList = [];
+        //         var re = /<img[^>]+src="([^">]+)"/g
       
-                while(m = re.exec(cleanHtml)) {
-                  imageList.push(m[1])
-                }
+        //         while(m = re.exec(cleanHtml)) {
+        //           imageList.push(m[1])
+        //         }
       
-              //   console.log(imageList)
+        //       //   console.log(imageList)
       
-                if(imageList.length > 0) {
-                //   let editorData = this.quill.container.innerHTML;
+        //         if(imageList.length > 0) {
+        //         //   let editorData = this.quill.container.innerHTML;
       
-                  var n;
-                  let localFile = [];
-                  while(n = re.exec(cleanData)) {
-                    localFile.push(n[1])
-                  }
+        //           var n;
+        //           let localFile = [];
+        //           while(n = re.exec(cleanData)) {
+        //             localFile.push(n[1])
+        //           }
       
-                  for(let i=0; i< imageList.length; i++) {
-                    cleanData = cleanData.replace(localFile[i], imageList[i])
-                  }
+        //           for(let i=0; i< imageList.length; i++) {
+        //             cleanData = cleanData.replace(localFile[i], imageList[i])
+        //           }
       
-                  // console.log(editorData)
+        //           // console.log(editorData)
       
-                  // editor.setContent(editorData)
-                //   this.quill.container.innerHTML = editorData
-                }
+        //           // editor.setContent(editorData)
+        //         //   this.quill.container.innerHTML = editorData
+        //         }
       
-              } catch(err) {
-                console.error(err)
-              }
+        //       } catch(err) {
+        //         console.error(err)
+        //       }
             
     
-            return html
-        }
+        //     return html
+        // }
 
         // document.addEventListener('click', function(e) {
         //     e.preventDefault()
@@ -260,8 +263,8 @@ const SunNative = () => {
         // event.dataTransfer.dropEffect = 'copy';
         const draggedValue = event.target.dataset["value"];
         // event.dataTransfer.effectAllowed = 'move'
-        // event.dataTransfer.setData("text/html", draggedValue);
-        event.dataTransfer.setData("text/html", '<table><thead><tr><th><div><br></div></th><th><div><br></div></th></tr></thead><tbody><tr><td><div><br></div></td><td><div><br></div></td></tr></tbody></table>');
+        event.dataTransfer.setData("text/html", draggedValue);
+        // event.dataTransfer.setData("text/html", '<table><thead><tr><th><div><br></div></th><th><div><br></div></th></tr></thead><tbody><tr><td><div><br></div></td><td><div><br></div></td></tr></tbody></table>');
     };
 
     function handleSubmit(e) {
@@ -269,15 +272,15 @@ const SunNative = () => {
         
         
 
-        // console.log(data)
-
+        
         data = `
-            <div class="se-wrapper-inner se-wrapper-wysiwyg sun-editor-editable">
-            ${data}
-            </div>
+        <div class="se-wrapper-inner se-wrapper-wysiwyg sun-editor-editable">
+        ${data}
+        </div>
         `
-
-        // data = data.replaceAll('class="page-break"', 'style="border: 1px solid #000; page-break-after: always;')
+        
+        data = data.replaceAll('break-before: page;', 'page-break-before: always;')
+        console.log(data)
         bodydata.append("desc", data)
 
         fetch("http://localhost:5000/pdf", {
@@ -334,7 +337,7 @@ const SunNative = () => {
 
             <div className="container" style={{display: 'flex'}}>
 
-                {/* <div className="flow-field">
+                <div className="flow-field">
                     <ul className="flow-field--list" onDragStart={handlingDragDrop}>
                         <li
                             data-value="{{requestor_email}}"
@@ -366,7 +369,7 @@ const SunNative = () => {
                             Requestor Name
                         </li>
                     </ul>
-                </div> */}
+                </div>
                 <textarea ref={txtArea} />
             </div>
             {currentIndex}

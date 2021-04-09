@@ -26,9 +26,20 @@ export const plugin_pageBreak = {
     },
 
     action: function() {
-        this.functions.insertHTML('<div class="page-break" style="break-after: always;"></div>', true)
+        // this.functions.insertHTML('<div class="page-break" style="page-break-before: always;"></div>', true)
         // this.functions.insertHTML('<br>', true)
         // this.insertComponent(this.context.customPageBreak.tag)
         // this.functions.insertHTML('<p><br></p>', true)
+
+        let newNode = this.util.createElement('hr')
+        // let newNode1 = this.util.createElement('hr')
+        // newNode.style.breakAfter = "always";
+        newNode.style.pageBreakBefore = "always";
+        newNode.style.display = "block";
+        newNode.className = "page-break"
+        // this.nodeChange(newNode, ['break-after'], null, null);
+        this.focus()
+        return this.insertComponent(newNode, false, true, false)
+
     }
 }
