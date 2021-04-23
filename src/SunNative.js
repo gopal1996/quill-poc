@@ -1,8 +1,8 @@
 import React, {useRef, useEffect, useState, useCallback} from 'react'
 import suneditor from 'suneditor';
 // import "suneditor/dist/css/suneditor.min.css";
-import "suneditor/src/assets/css/suneditor.css";
-// import './suneditor.min.css'; 
+// import "suneditor/src/assets/css/suneditor.css";
+import './suneditor.min.css'; 
 import {blockquote, align, font, fontSize, fontColor, hiliteColor, horizontalRule, list, table, formatBlock, lineHeight, template, paragraphStyle, textStyle, link, image, video, audio, math, imageGallery} from "suneditor/src/plugins";
 import {plugin_command} from './suneditor/customComand'
 import {plugin_submenu} from './suneditor/customSubmenu'
